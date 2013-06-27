@@ -1,7 +1,7 @@
 bookmarks2evernote
 ==================
 
-This a fork of [spiermar/bookmarks2evernote](https://github.com/spiermar/bookmarks2evernote), for some minor modifications regarding Google Bookmarks.
+This a fork of [spiermar/bookmarks2evernote](https://github.com/spiermar/bookmarks2evernote), for some improvements regarding Google Bookmarks.
 
 -----------
 
