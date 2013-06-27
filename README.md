@@ -1,6 +1,10 @@
 bookmarks2evernote
 ==================
 
+This a fork of [spiermar/bookmarks2evernote](https://github.com/spiermar/bookmarks2evernote), for some minor modifications regarding Google Bookmarks.
+
+-----------
+
 A simple command line tool to transform bookmarks exported from Google Chrome and Google Bookmarks into Evernote as individual notes using EN's enex format.
 If the html file you are using as input uses H3 as folder name, this are translated into Evernote tags. For this to work correctly, you must ensure when exporting Google Chrome Bookmarks that all the folders are located at the end of your bookmark's list.
 
