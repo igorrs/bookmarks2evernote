@@ -41,7 +41,7 @@ def main():
         parser = argparse.ArgumentParser()
         parser.add_argument("html_file", help="the file that contains the bookmarks in html format")
         args = parser.parse_args()
-        soup = BeautifulSoup(codecs.open(args.html_file, encoding='utf-8'))
+        soup = BeautifulSoup(codecs.open(args.html_file, encoding='utf-8'), 'html.parser')
 
         html_tags = soup.findAll(['h3', 'a'])
 
