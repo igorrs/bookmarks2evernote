@@ -16,6 +16,10 @@ class Bookmark():
         output = """<note><title>%(title)s</title><content><![CDATA[<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">%(content)s</en-note>]]></content><created>%(date)s</created><updated>%(date)s</updated>%(tag)s<note-attributes><source-url>%(url)s</source-url></note-attributes></note>""" % {'title': self.title, 'content': self.content, 'tag': self.tag, 'url': self.url, 'date': self.date,}
         return output.replace('&', '&amp;')
 
+    # Add text to the content, as a new paragraph.
+    def addDescr(self, description):
+        self.content = self.content + "<p>" + description + "</p>"
+
     def __str__(self):
         return unicode(self.title + " " + self.url + " " + self.tag)
 
@@ -34,8 +38,12 @@ def unique(bookmarks):
 
     return res
 
+def safeAppend(bm, bookmarks):
+    if bm is not None:
+        bookmarks.append(bm)
+    None
+
 def main():
-    
 
     try:
         parser = argparse.ArgumentParser()
@@ -43,18 +51,25 @@ def main():
         args = parser.parse_args()
         soup = BeautifulSoup(codecs.open(args.html_file, encoding='utf-8'), 'html.parser')
 
-        html_tags = soup.findAll(['h3', 'a'])
+        # The contents of the DD tags (which are the notes in Google Bookmarks) will also be added as content in the output.
+        html_tags = soup.findAll(['h3', 'a', 'dd'])
 
         en_tag = ''
 
         bookmarks = []
+        new_bm = None
 
         for tag in html_tags:
             if tag.name == 'h3':
+                new_bm = safeAppend(new_bm, bookmarks)
                 en_tag = tag.string
-            if tag.name == 'a':
+            elif tag.name == 'a':
+                new_bm = safeAppend(new_bm, bookmarks)
                 new_bm = Bookmark(tag.string, tag['href'], en_tag, tag['add_date'])
-                bookmarks.append(new_bm)
+            elif tag.name == 'dd' and new_bm is not None:
+                new_bm.addDescr(tag.contents[0])
+
+        new_bm = safeAppend(new_bm, bookmarks)
 
         print "Total Bookmarks: " + str(len(bookmarks))
 
