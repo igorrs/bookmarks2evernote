@@ -9,7 +9,7 @@ class Bookmark():
         self.title = title
         self.url = url
         self.tag = '<tag>' + tag + '</tag>'
-        self.date = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime(float(long(date) / 1000000)))
+        self.date = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime(float(int(date) / 1000000)))
         self.content = '''<a href="%(url)s">%(title)s</a>''' % {'title': self.title, 'url': self.url}
 
     def printAsEnex(self):
@@ -71,11 +71,11 @@ def main():
 
         new_bm = safeAppend(new_bm, bookmarks)
 
-        print "Total Bookmarks: " + str(len(bookmarks))
+        print("Total Bookmarks: " + str(len(bookmarks)))
 
         bookmarks = unique(bookmarks)
 
-        print "Unique Bookmarks: " + str(len(bookmarks))
+        print("Unique Bookmarks: " + str(len(bookmarks)))
 
         output_file = args.html_file.split('.')[0] + ".enex"
         out = codecs.open(output_file, 'w', encoding='utf-8')
@@ -87,11 +87,11 @@ def main():
         out.write("</en-export>")
         out.close()
 
-        print "Success! Output file name: " + output_file
+        print("Success! Output file name: " + output_file)
     except Exception as e:
-        print "Error!"
-        print type(e)
-        print e.args
+        print("Error!")
+        print(type(e))
+        print(e.args)
 
 
 if __name__ == '__main__':
